@@ -122,6 +122,10 @@ if ((isset($_SESSION['login']) && !empty($_SESSION['login']))
 						<a href="#" id="deleteAllPlaylist" class="button_action">
 							<img src="img/deletePlaylist.png" class="img_action" title="Vide la playlist"/>
 						</a>
+						<a href="#" id="addResultToPlaylist" class="button_action">
+							<img id="on" src="img/addResultToPlaylist_on.png" class="img_action diplay_none" title="Ajoute la sélection à la playlist"/>
+							<img id="off" src="img/addResultToPlaylist_off.png" class="img_action" title="Lancer la recherche pour ajouter les résultats à la playlist"/>
+						</a>
 						<a href="#" id="index" class="button_action">
 							<img src="img/index.png" class="img_action" title="Indexe la bibliothèque"/>
 						</a>
@@ -333,6 +337,12 @@ $(document).ready( function() {
 			$("#fileTree").show();
 			$("#resultSearch").hide().html();
 			$("#searchIcon").removeClass("progressing").addClass("notInProgress");
+			// Boutons d'ajout des résultats de recherche à la playlist
+			var isHidden = $("#on").hasClass("diplay_none");
+			if(isHidden === false){
+				$("#on").addClass("diplay_none");
+				$("#off").removeClass("diplay_none");
+			}
 		}
 		if (e.which == 13 && v!=="") {
 			$.ajax({
@@ -344,6 +354,8 @@ $(document).ready( function() {
 					$("#searchIcon").removeClass("notInProgress").addClass("progressing");
 					$("#fileTree").hide();
 					$("#resultSearch").show();
+					// Supprime les anciennes recherches
+					$('.fileFound').remove();
 				},
 				success: function(r){
 					$("#resultSearch").html("<ul>"+r+"</u>");
@@ -353,7 +365,7 @@ $(document).ready( function() {
 						var src = $(this).attr("data-src");
 						src = src.trim();
 						addToPlaylist(title, moreInfo, encodeURI(src));
-					});
+					});					
 				},
 				error: function(e){
 					$("#resultSearch").html(e);
@@ -361,6 +373,27 @@ $(document).ready( function() {
 				complete: function(){
 					// On enlève le spinner
 					$("#searchIcon").removeClass("progressing").addClass("notInProgress");
+					
+					// AJOUTE RESULTATS A LA PLAYLIST
+					var hasResults = $("#resultSearch").html().length > 100;
+					if(hasResults === true){
+						$("#on").removeClass("diplay_none");
+						$("#off").addClass("diplay_none");
+					} else {
+						$("#off").addClass("diplay_none");
+						$("#on").removeClass("diplay_none");
+					}
+					// id="on" -> img : addResultToPlaylist_on.png 
+					$('#on').on("click", function(){
+						var res = $('.fileFound');
+						$.each(res, function(){
+							var title = $(this).attr("data-tit");
+							var moreInfo = $(this).attr("data-art") + " - " + $(this).attr("data-alb");
+							var src = $(this).attr("data-src");
+							src = src.trim();
+							addToPlaylist(title, moreInfo, encodeURI(src));
+						});
+					});
 				}
 			});
 		}

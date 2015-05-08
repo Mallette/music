@@ -83,3 +83,6 @@ ul {
 .action {
 	float:right;
 }
+.diplay_none {
+	display: none;
+}
