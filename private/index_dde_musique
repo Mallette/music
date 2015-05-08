@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Fichier d'index qui contient les noms et chemin 
+# de tous les fichiers musicaux
+# Situé : /home/pi/bin
+
+iFile="/home/pi/music/index.txt"
+
+if [ -f "$iFile" ]
+then
+	# Le fichier d'index existe.
+	# On le supprime
+	echo "<p><b>1</b>. Suppression du fichier existant.</p>"
+	rm "$iFile"
+
+else
+	# Le fichier n'existe pas.
+	# Donc on le crée
+	echo "<p><b>1</b>. Le fichier n'existe pas donc on le crée.</p>"
+	touch "$iFile"
+fi
+
+# chemin absolue du disque dur externe
+ddeDir="/storage/dde_musique/Musique"
+
+# Debut d'ecriture
+echo "<p><b>2</b>. Ecriture du fichier d'index en cours...</p>"
+
+start=$(date +%s)
+
+# On écrit dans ce fichier
+find "$ddeDir" -type f -name "*.mp3" -o -name "*.MP3" -o -name "*.wma" -o -name "*.WMA" -o -name "*.m4a" -o -name "*.M4A" -o -name "*.flac" -o -name "*.FLAC" >> "$iFile"
+
+# Fin d'ecriture
+echo "<p><b>3</b>. Fin d'écriture du fichier.</p>"
+
+# Traitement terminé
+echo "<p><b>4</b>. Traitement terminé.</p>"
+
+end=$(date +%s)
+processTime=$(( $end - $start ))
+echo "<p><b>Info</b> : Temps de traitement : $processTime s.</p>"
+
+
+
+
+
+

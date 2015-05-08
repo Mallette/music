@@ -1,0 +1,41 @@
+#wait{
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+	background: rgba( 255, 255, 255, .8 );
+}
+
+.notLoading{
+	display: none;
+}
+
+.loading {
+    display: block;
+}
+
+#img {
+	height: 34px;
+    width: 34px;
+	margin: 200px auto;
+    background: url('../img/Preloader_1.gif') rgba( 255, 255, 255, 1) no-repeat;
+	border: 1px solid #dedede;
+	border-radius: 6px; 
+}
+
+
+#searchIcon {
+	height: 34px;
+    width: 34px;
+	margin: 0px 2px;
+    background: url('../img/Preloader_1.gif') rgba( 255, 255, 255, 1) no-repeat;
+	vertical-align: middle;
+}
+.notInProgress{
+	display: none;
+}
+.progressing {
+    display: inline-block;
+}
