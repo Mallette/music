@@ -111,7 +111,16 @@ if ((isset($_SESSION['login']) && !empty($_SESSION['login']))
 		
 		<div class="wrapper">
 
-			<h2 class="grey">Hello <?php echo $msgWelcome; ?> !</h2>
+			<h2 class="grey">Hello <?php echo $msgWelcome; ?> !
+				<span class="right">
+					<a href="#" id="index" class="button_action">
+						<img src="img/index.png" class="img_action" title="Indexe la bibliothèque"/>
+					</a>
+					<a href="http://rpi.mengelle.fr/music/dde_musique/Musique" target="_blank" class="button_action">
+						<img src="img/dir.png" class="img_action" title="DDE musique sans interface"/>
+					</a>
+				</span>
+			</h2>
 			<div class="content">
 				
 				<div class="arbre">
@@ -119,14 +128,12 @@ if ((isset($_SESSION['login']) && !empty($_SESSION['login']))
 						<a href="#" id="random" class="button_action" >
 							<img src="img/random.png" class="img_action" title="Lecture aléatoire de 30 chansons"/>
 						</a>
+						<a href="#" id="addResultToPlaylist" class="button_action">
+							<img id="on" src="img/addResultToPlaylist_on.png" class="img_action diplay_none" title="Ajoute la sélection à la playlist"/>
+							<img id="off" src="img/addResultToPlaylist_off.png" class="img_action" title="Lancer la recherche pour ajouter les résultats à la playlist"/>
+						</a>
 						<a href="#" id="deleteAllPlaylist" class="button_action">
 							<img src="img/deletePlaylist.png" class="img_action" title="Vide la playlist"/>
-						</a>
-						<a href="#" id="index" class="button_action">
-							<img src="img/index.png" class="img_action" title="Indexe la bibliothèque"/>
-						</a>
-						<a href="http://rpi.mengelle.fr/music/dde_musique/Musique" target="_blank" class="button_action">
-							<img src="img/dir.png" class="img_action" title="DDE musique sans interface"/>
 						</a>
 					</div>
 					<div>
@@ -279,6 +286,8 @@ $(document).ready( function() {
 			beforeSend: function() {
 				// On ajoute le spinner
 				$("#searchIcon").removeClass("notInProgress").addClass("progressing");
+				// On bloque la recherche
+				$("#search").prop('disabled', true);
 			},
 			success: function(r){
 				// Ouvre POP UP d'information
@@ -289,6 +298,8 @@ $(document).ready( function() {
 			complete: function(){
 				// On enlève le spinner
 				$("#searchIcon").removeClass("progressing").addClass("notInProgress");
+				// On active la recherche
+				$("#search").prop('disabled', false);
 			}
 		});
 	});
@@ -333,6 +344,12 @@ $(document).ready( function() {
 			$("#fileTree").show();
 			$("#resultSearch").hide().html();
 			$("#searchIcon").removeClass("progressing").addClass("notInProgress");
+			// Boutons d'ajout des résultats de recherche à la playlist
+			var isHidden = $("#on").hasClass("diplay_none");
+			if(isHidden === false){
+				$("#on").addClass("diplay_none");
+				$("#off").removeClass("diplay_none");
+			}
 		}
 		if (e.which == 13 && v!=="") {
 			$.ajax({
@@ -344,6 +361,8 @@ $(document).ready( function() {
 					$("#searchIcon").removeClass("notInProgress").addClass("progressing");
 					$("#fileTree").hide();
 					$("#resultSearch").show();
+					// Supprime les anciennes recherches
+					$('.fileFound').remove();
 				},
 				success: function(r){
 					$("#resultSearch").html("<ul>"+r+"</u>");
@@ -353,7 +372,7 @@ $(document).ready( function() {
 						var src = $(this).attr("data-src");
 						src = src.trim();
 						addToPlaylist(title, moreInfo, encodeURI(src));
-					});
+					});					
 				},
 				error: function(e){
 					$("#resultSearch").html(e);
@@ -361,9 +380,33 @@ $(document).ready( function() {
 				complete: function(){
 					// On enlève le spinner
 					$("#searchIcon").removeClass("progressing").addClass("notInProgress");
+					
+					// Affiche le bouton d'ajout à la playlist s'il y a des résultats !!!
+					var hasResults = $("#resultSearch").html().length > 100;
+					if(hasResults === true){
+						$("#on").removeClass("diplay_none");
+						$("#off").addClass("diplay_none");
+					} else {
+						$("#off").addClass("diplay_none");
+						$("#on").removeClass("diplay_none");
+					}
+
 				}
 			});
 		}
+	});
+	
+	// AJOUTE RESULTATS A LA PLAYLIST
+	// id="on" -> img : addResultToPlaylist_on.png 
+	$('#on').on("click", function(){
+		var res = $('.fileFound');
+		$.each(res, function(){
+			var title = $(this).attr("data-tit");
+			var moreInfo = $(this).attr("data-art") + " - " + $(this).attr("data-alb");
+			var src = $(this).attr("data-src");
+			src = src.trim();
+			addToPlaylist(title, moreInfo, encodeURI(src));
+		});
 	});
 	
 	// MENU CONTEXTUEL sur fichier

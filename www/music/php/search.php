@@ -80,7 +80,8 @@ if( isset($vr) && !empty($vr) ){
 	}	
 	
 } else {
-	echo "Oups...";
+	echo "<table><tr><td><img class=\"img_32 margin_right_10\" src=\"img/error.png\"></td>"
+			."<td><span class=\"bold\">Oups...</span><br/><span class=\"small\">Merci de renseigner un autre mot clef.</td></tr></table>";
 }
 
 ?>
