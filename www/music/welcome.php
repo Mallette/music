@@ -49,6 +49,10 @@ if (!empty($_SESSION['login']) && !empty($_SESSION['mdp'])) {
 		<script src="menu/jquery.contextMenu.js" type="text/javascript"></script>
 		<link href="menu/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
 		
+		<!-- MICRO -->
+		<!-- <script src="js/volume-meter.js"></script> -->
+		<!-- <script src="js/micro.js"></script> -->
+		
 		<!-- SPECIFIC -->
 		<link href="css/wait.css" rel="stylesheet">
 		<link href="css/welcome.css" rel="stylesheet">
@@ -58,7 +62,6 @@ if (!empty($_SESSION['login']) && !empty($_SESSION['mdp'])) {
 	
 	
 	<body>
-	
 		
 		<div id="lecteur">
 			<h2 id="titre_lecteur">Lecteur <span class="toggle"></span></h2>
@@ -122,6 +125,8 @@ if (!empty($_SESSION['login']) && !empty($_SESSION['mdp'])) {
 			</h2>
 			<div class="content">
 				
+				<!-- <canvas id="meter" width="500" height="20"></canvas> -->
+				
 				<div class="arbre">
 					<div style="margin-bottom: 10px">
 						<a href="#" id="random" class="button_action" >
@@ -133,12 +138,6 @@ if (!empty($_SESSION['login']) && !empty($_SESSION['mdp'])) {
 						</a>
 						<a href="#" id="deleteAllPlaylist" class="button_action">
 							<img src="img/deletePlaylist.png" class="img_action" title="Vide la playlist"/>
-						</a>
-						<a href="#" id="index" class="button_action">
-							<img src="img/index.png" class="img_action" title="Indexe la bibliothèque"/>
-						</a>
-						<a href="http://xxx/music/dde_musique/Musique" target="_blank" class="button_action">
-							<img src="img/dir.png" class="img_action" title="DDE musique sans interface"/>
 						</a>
 					</div>
 					<div>
@@ -166,12 +165,29 @@ if (!empty($_SESSION['login']) && !empty($_SESSION['mdp'])) {
 						<pre><div id="detailsTraitementIndexation"></div></pre>
 					</div>
 					<div class="modal-footer">
-						<a id="cancelChangmtOuv" href="#" class="btn btn-default" data-dismiss="modal">OK</a>
+						<a href="#" class="btn btn-default" data-dismiss="modal">OK</a>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+	
+		<!-- POP-UP -->
+		<div class="modal fade" id="micro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">×</button>
+						<h3>Désactivation du micro</h3>
+					</div>
+					<div class="modal-body">
+						<p>Le micro n'est pas activé.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-default" data-dismiss="modal">OK</a>
+					</div>
+				</div>
+			</div>
+		</div>	
 		
 		
 		
@@ -187,11 +203,20 @@ $(document).ready( function() {
 	function drawBandeauLecteur(hDoc){
         $lecteur.css("height", hDoc);
 	}
+	
+	// Ajuste la hauteur de la playlist
+	function ajusteHauteurPlaylist(){
+		var hPlayer = $(".jp-gui").outerHeight(true);
+		var hTitle = $("#titre_lecteur").outerHeight(true);
+		$(".jp-playlist").css("height", (hDoc - hPlayer - hTitle - 2));
+	}
+	ajusteHauteurPlaylist();
 
     // On resize
 	$( window ).on('resize', function() {
 		hDoc = $(document).height();
 		drawBandeauLecteur(hDoc);
+		ajusteHauteurPlaylist();
 	});
 
     // Initialize bandeau du lecteur
@@ -263,7 +288,7 @@ $(document).ready( function() {
 				$("#searchIcon").removeClass("notInProgress").addClass("progressing");
 			},
 			success: function(r){
-				var resultats = JSON.parse(JSON.parse(r)).resultat;
+				var resultats = JSON.parse(r).resultat;
 				
 				for(i = 0; i < resultats.length; i++ ){
 					var track = resultats[i].track;
@@ -498,11 +523,6 @@ $(document).ready( function() {
     });	
 */
 
-	
-	// Ajuste la hauteur de la playlist
-	var hPlayer = $(".jp-gui").outerHeight(true);
-	var hTitle = $("#titre_lecteur").outerHeight(true);
-	$(".jp-playlist").css("height", (hDoc - hPlayer - hTitle - 2));
 	
 });
 //]]>
