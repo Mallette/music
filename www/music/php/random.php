@@ -6,7 +6,7 @@
 $nb_elem = strtoupper($_GET['nbElem']);
 
 // Liste des chansons aléatoires
-$arrayTracks = array();
+$arrayTracks = [];
 
 
 // Mode DEBUG
@@ -51,12 +51,15 @@ if( isset($nb_elem) && !empty($nb_elem) && $nb_elem > 0 ){
 			
 			$titre = $artist. $sep .$album. $sep .$title;
 			
-			$res = "{ \"track\" : [  { \"src\" : \"".trim(htmlentities($ligne)). "\" }, "
-							."	 { \"art\" : \"".trim(htmlentities($artist))."\" }, "
-							."	 { \"alb\" : \"".trim(htmlentities($album)). "\" }, "
-							."	 { \"tit\" : \"".trim(htmlentities($title)). "\" } "
-					." ]}";
-											
+			$res = ['track'=>
+                [
+                    ["src" => trim(htmlentities($ligne))],
+                    ["art" => trim(htmlentities($artist))],
+                    ["alb" => trim(htmlentities($album))],
+                    ["tit" => trim(htmlentities($title))]
+                ]
+            ];
+
 			if($debug2) echo "Src : ".$ligne."<br/>";
 			
 			// Ajoute la ligne au tableau
@@ -68,15 +71,11 @@ if( isset($nb_elem) && !empty($nb_elem) && $nb_elem > 0 ){
 		$winners = array_rand($arrayTracks, $nb_elem);
 		
 		//$resultats = "";
-		$resultats = "{ \"resultat\" : [";
+		$resultats = [];
 		for($i = 0; $i < $nb_elem; $i++){
-			$res = $arrayTracks[$winners[$i]];
-			if($i < $nb_elem-1 ){
-				$res .= ", ";
-			}
-			$resultats .= $res;
+			$resultats[] = $arrayTracks[$winners[$i]];
 		}
-		$resultats .= "] }";
+		$resultats = ['resultat' => $resultats];
 		
 		echo json_encode($resultats);
 		
