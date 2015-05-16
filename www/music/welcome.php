@@ -3,8 +3,7 @@
 session_start();
 
 // On teste si je me suis bien connecté
-if ((isset($_SESSION['login']) && !empty($_SESSION['login'])) 
-	&& (isset($_SESSION['mdp']) && !empty($_SESSION['mdp']))) {
+if (!empty($_SESSION['login']) && !empty($_SESSION['mdp'])) {
 
 	$msgWelcome = strtoupper($_SESSION['login']);
 
@@ -135,6 +134,12 @@ if ((isset($_SESSION['login']) && !empty($_SESSION['login']))
 						<a href="#" id="deleteAllPlaylist" class="button_action">
 							<img src="img/deletePlaylist.png" class="img_action" title="Vide la playlist"/>
 						</a>
+						<a href="#" id="index" class="button_action">
+							<img src="img/index.png" class="img_action" title="Indexe la bibliothèque"/>
+						</a>
+						<a href="http://xxx/music/dde_musique/Musique" target="_blank" class="button_action">
+							<img src="img/dir.png" class="img_action" title="DDE musique sans interface"/>
+						</a>
 					</div>
 					<div>
 						<input type="text" id="search" placeholder="Recherche" value=""
@@ -173,31 +178,32 @@ if ((isset($_SESSION['login']) && !empty($_SESSION['login']))
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready( function() {
-	
+
+    var hDoc;
+    var speed = 400;
+    var $lecteur = $('#lecteur');
+
 	// Adapte la hauteur du bandeau lecteur
 	function drawBandeauLecteur(hDoc){
-		$("#lecteur").css("height", hDoc);
-	};
-	
-	// Initialize bandeau du lecteur
-	var hDoc = $(document).height();
-	drawBandeauLecteur(hDoc);
-	
-	// On resize
-	$( window ).resize(function() {
-		var hDoc = $(document).height();
+        $lecteur.css("height", hDoc);
+	}
+
+    // On resize
+	$( window ).on('resize', function() {
+		hDoc = $(document).height();
 		drawBandeauLecteur(hDoc);
 	});
 
-	
-	var speed = 400;
-	$('#lecteur').css("marginLeft", "-375px" );
+    // Initialize bandeau du lecteur
+    $( window).trigger('resize');
+
+    $lecteur.css("marginLeft", "-375px" );
 	$('.wrapper').css("marginLeft", "45px" );
 	$('#lecteur_jplayer').hide();
 	$('.toggle').html(">");
 	// Toggle lecteur
 	$('#titre_lecteur').on('click', function(){
-		var isOpen = ($('#lecteur').css('margin-left') == '0px');
+		var isOpen = ($lecteur.css('margin-left') == '0px');
 		if( isOpen ){
 			$('#lecteur').animate({ marginLeft: "-375px" }, speed );
 			$('.wrapper').animate({ marginLeft: "45px" }, speed );

@@ -1,17 +1,16 @@
 <?php
-
-$debbug = false;
-
+session_start();
+$debug  = false;
+$ok     = false;
 // On teste si j'ai soumis le formulaire de connexion
 if ( isset($_POST['btn']) && $_POST['btn'] == 'Connexion' ) {
 	
-	if ((isset($_POST['inputEmail']) && !empty($_POST['inputEmail'])) 
-			&& (isset($_POST['inputPassword']) && !empty($_POST['inputPassword']))) {
+	if (!empty($_POST['inputEmail']) && !empty($_POST['inputPassword'])) {
 		
 		$login = $_POST['inputEmail'];
 		$mdp = openssl_digest($_POST['inputPassword'], 'sha512');
 		
-		if($debbug){
+		if($debug){
 			echo "Données du formulaire remplies.<br/>";
 		}
 		
@@ -19,8 +18,8 @@ if ( isset($_POST['btn']) && $_POST['btn'] == 'Connexion' ) {
 			$ok = true;
 		}
 		
-		if( isset($ok) && !empty($ok) && $ok ) {
-			if($debbug){
+		if( $ok ) {
+			if($debug){
 				echo "C'est OK, on redirige.<br/>";
 			} else {
 				session_start();
@@ -31,7 +30,7 @@ if ( isset($_POST['btn']) && $_POST['btn'] == 'Connexion' ) {
 			}
 			
 		} else {
-			if($debbug){
+			if($debug){
 				echo "Compte inconnu.<br/>";
 			} else {
 				header('Location: index.php');
@@ -39,7 +38,7 @@ if ( isset($_POST['btn']) && $_POST['btn'] == 'Connexion' ) {
 			}
 		}
 	} else {
-		if($debbug){
+		if($debug){
 			echo "Formulaire vide.<br/>";
 		} else {
 			header('Location: index.php');
@@ -47,7 +46,7 @@ if ( isset($_POST['btn']) && $_POST['btn'] == 'Connexion' ) {
 		}
 	}
 } else {
-	if($debbug){
+	if($debug){
 		echo "Formulaire non soumis.<br/>";
 	}
 }

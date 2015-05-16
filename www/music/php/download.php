@@ -2,7 +2,7 @@
 
 
 $name = $_GET['name'];
-$url = $_GET['url'];
+$url  = $_GET['url'];
 
 
 // Mode DEBUG
@@ -10,9 +10,9 @@ $debug = false;
 if($debug) echo "Name : '".$name."'<br/>URL : '".$url."'<br/>";
 
 // Si la valeur n'est pas vide
-if( isset($name) && !empty($name) && isset($url) && !empty($url) ){
+if( !empty($name) && !empty($url) ){
 	
-	$ext = strtoupper( substr($name, (strlen($name)-3), 3) );
+	$ext = strtoupper( pathinfo($name, PATHINFO_EXTENSION) );
 	if($debug) echo "Extension : '".$ext."'<br/>";
 	
 	if( $ext == "MP3"){	
