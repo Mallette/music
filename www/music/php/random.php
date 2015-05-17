@@ -53,10 +53,10 @@ if( isset($nb_elem) && !empty($nb_elem) && $nb_elem > 0 ){
 			
 			$res = ['track'=>
                 [
-                    "src" => trim(htmlentities($ligne)),
-                    "art" => trim(htmlentities($artist)),
-                    "alb" => trim(htmlentities($album)),
-                    "tit" => trim(htmlentities($title))
+                    ["src" => trim(htmlentities($ligne))],
+                    ["art" => trim(htmlentities($artist))],
+                    ["alb" => trim(htmlentities($album))],
+                    ["tit" => trim(htmlentities($title))]
                 ]
             ];
 
@@ -66,8 +66,9 @@ if( isset($nb_elem) && !empty($nb_elem) && $nb_elem > 0 ){
 			$arrayTracks[] = $res;
 			
 		}
-
-        $nb_elem = min($nb_elem, count($arrayTracks));
+		
+		$nb_elem = min($nb_elem, count($arrayTracks));
+		
 		// Récupère de manière aléatoire les chansons
 		$winners = array_rand($arrayTracks, $nb_elem);
 		
