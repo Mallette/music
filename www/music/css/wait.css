@@ -26,7 +26,8 @@
 }
 
 
-#searchIcon {
+#searchIcon, 
+#waitIndexationIcon {
 	height: 34px;
     width: 34px;
 	margin: 0px 2px;

@@ -16,13 +16,13 @@
     margin:0; 
     padding:0;
     
-    min-width: 120px;
-    max-width: 250px;
+    min-width: 240px;
+    max-width: 300px;
     display: inline-block;
     position: absolute;
     list-style-type: none;
     
-    border: 1px solid #DDD;
+    border: 1px solid #EEE;
     background: #EEE;
     
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
@@ -30,14 +30,13 @@
         -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
          -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
+			
+    font-size: 12px;
 }
 
 .context-menu-item {
     padding: 2px 2px 2px 24px;
-    background-color: #EEE;
+    background-color: #FFF;
     position: relative;
     -webkit-user-select: none;
        -moz-user-select: -moz-none;
@@ -99,6 +98,8 @@
 .context-menu-item.icon-quit { background-image: url(images/door.png); }
 .context-menu-item.icon-music { background-image: url(images/music.png); }
 .context-menu-item.icon-zip { background-image: url(images/zip.png); }
+
+.context-menu-item.icon-playlist { background-image: url(images/playlist.png); }
 
 /* vertically align inside labels */
 .context-menu-input > label > * { vertical-align: top; }

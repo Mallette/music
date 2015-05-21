@@ -14,6 +14,14 @@ body{
 	background-color: #2D3E63;
 	cursor:pointer;
 }
+.input_text {
+	box-shadow:inset 0 0 4px #eee; 
+	width:150px; 
+	padding:4px 12px; 
+	border-radius:4px; 
+	border:1px solid silver; 
+	vertical-align: middle;
+}
 .toggle{
 	float:right;
 	margin:0px 2px;
@@ -103,4 +111,15 @@ ul {
 }
 .small {
 	font-size: x-small;
+}
+#messageGestionPlaylist{
+	margin-top: 10px;
+}
+.playlistSelected{
+	list-style-type: none;
+	background-image: url('images/playlist.png');
+	background-repeat: no-repeat;
+	padding-left: 25px;
+	margin-top: 1px;
+	cursor: pointer;
 }
