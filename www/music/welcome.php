@@ -111,6 +111,7 @@ if (!empty($_SESSION['login']) && !empty($_SESSION['mdp'])) {
 
 			<h2 class="grey">Hello <?php echo $msgWelcome; ?> !
 				<span class="right">
+					<?php include "php/diskSpace.php"; ?>
 					<a href="#" id="index" class="button_action">
 						<img src="img/index.png" class="img_action" title="Indexe la bibliothèque"/>
 					</a>
